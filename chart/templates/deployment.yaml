@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "slack-bot.fullname" . }}
+  labels:
+{{ include "slack-bot.labels" . | indent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "slack-bot.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "slack-bot.fullname" . }}
+    spec:
+      containers:
+        - args:
+          - -app-token=$(APP_TOKEN)
+          - -bot-token=$(BOT_TOKEN)
+          - -bot-user-id=$(BOT_USER_ID)
+          - -gopher-ping=$(GOPHER_PING)
+          - -notification-channel-id=$(NOTIFICATION_CHANNEL_ID)
+          - -workspace=$(WORKSPACE)
+          image: {{ .Values.image }}
+          name: bot
+          env:
+          - name: APP_TOKEN
+            valueFrom: 
+              secretKeyRef:
+                name: {{ include "slack-bot.fullname" . }}
+                key: "app-token"
+          - name: BOT_TOKEN
+            valueFrom: 
+              secretKeyRef:
+                name: {{ include "slack-bot.fullname" . }}
+                key: "bot-token"
+          - name: BOT_USER_ID
+            valueFrom: 
+              secretKeyRef:
+                name: {{ include "slack-bot.fullname" . }}
+                key: "bot-user-id"
+          - name: GOPHER_PING
+            valueFrom: 
+              secretKeyRef:
+                name: {{ include "slack-bot.fullname" . }}
+                key: "gopher-ping"
+          - name: NOTIFICATION_CHANNEL_ID
+            valueFrom: 
+              secretKeyRef:
+                name: {{ include "slack-bot.fullname" . }}
+                key: "notification-channel-id"
+          - name: WORKSPACE
+            valueFrom: 
+              secretKeyRef:
+                name: {{ include "slack-bot.fullname" . }}
+                key: "workspace"
