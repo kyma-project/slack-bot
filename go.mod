@@ -1,4 +1,4 @@
-module github.com/wozniakjan/slack-bot
+module github.com/kyma-incubator/slack-bot
 
 go 1.17
 
