@@ -1,0 +1,14 @@
+image: ""
+slack:
+  # Slack App Token
+  appToken: ""
+  # Slack Bot Token
+  botToken: ""
+  # Bot user ID, so the bot can exclude it's own messages
+  botUserID: ""
+  # Watch and monitor ping for following string
+  gopherPing: ""
+  # Forward notifications to following channel
+  notificationChannelID: ""
+  # Slack workspace for API calls
+  workspace: ""
