@@ -44,12 +44,22 @@ func processMsgEvent(api *slack.Client, data interface{}) bool {
 	}
 	msg, ok := ev.InnerEvent.Data.(*slackevents.MessageEvent)
 	if !ok {
+		if debug {
+			log.Printf("unexpected type for MessageEvent %v %T\n", ev.InnerEvent.Type, ev.InnerEvent.Data)
+		}
 		return true
 	}
 	if msg.User == botUserID {
+		if debug {
+			log.Println("skipping, message user == botUserID")
+		}
 		return true
 	}
 	if !strings.Contains(msg.Text, gopherPing) {
+		if debug {
+			log.Println("skipping, missing gopherPing", gopherPing)
+			log.Println(msg.Text)
+		}
 		return true
 	}
 	backlogMsg := fmt.Sprintf("Message from <@%v>\n%v\n\n*link:* https://%v.slack.com/archives/%v/p%v", msg.User, quote(msg.Text), ws, msg.Channel, msg.TimeStamp)
