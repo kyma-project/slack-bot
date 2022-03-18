@@ -20,8 +20,6 @@ var (
 	notificationChannelID = ""
 	ws                    = ""
 	debug                 = false
-
-	threadReply = "thanks, added to @gopher backlog"
 )
 
 func quote(str string) string {
@@ -67,9 +65,9 @@ func processMsgEvent(api *slack.Client, data interface{}) bool {
 		log.Printf("failed posting reply: %v\n", err)
 		return false
 	}
-	if _, _, err := api.PostMessage(msg.Channel, slack.MsgOptionText(threadReply, false), slack.MsgOptionTS(ts(msg))); err != nil {
-		log.Printf("failed posting reply: %v\n", err)
-		return false
+
+	if err := api.AddReaction("ack", slack.ItemRef{Channel: msg.Channel, Timestamp: ts(msg)}); err != nil {
+		log.Printf("failed sending reaction: %v\n", err)
 	}
 	return true
 }
