@@ -34,6 +34,14 @@ func ts(msg *slackevents.MessageEvent) string {
 	return msg.TimeStamp
 }
 
+func getLink(msg *slackevents.MessageEvent) string {
+	link := fmt.Sprintf("https://%v.slack.com/archives/%v/p%v", ws, msg.Channel, msg.TimeStamp)
+	if msg.ThreadTimeStamp != "" {
+		link = fmt.Sprintf("%v?thread_ts=%v", link, msg.ThreadTimeStamp)
+	}
+	return link
+}
+
 func processMsgEvent(api *slack.Client, data interface{}) bool {
 	ev, ok := data.(slackevents.EventsAPIEvent)
 	if !ok {
@@ -60,13 +68,13 @@ func processMsgEvent(api *slack.Client, data interface{}) bool {
 		}
 		return true
 	}
-	backlogMsg := fmt.Sprintf("Message from <@%v>\n%v\n\n*link:* https://%v.slack.com/archives/%v/p%v", msg.User, quote(msg.Text), ws, msg.Channel, msg.TimeStamp)
+	backlogMsg := fmt.Sprintf("Message from <@%v>\n%v\n\n*link:* %v", msg.User, quote(msg.Text), getLink(msg))
 	if _, _, err := api.PostMessage(notificationChannelID, slack.MsgOptionText(backlogMsg, false)); err != nil {
 		log.Printf("failed posting reply: %v\n", err)
 		return false
 	}
 
-	if err := api.AddReaction("ack", slack.ItemRef{Channel: msg.Channel, Timestamp: ts(msg)}); err != nil {
+	if err := api.AddReaction("ack", slack.ItemRef{Channel: msg.Channel, Timestamp: msg.TimeStamp}); err != nil {
 		log.Printf("failed sending reaction: %v\n", err)
 	}
 	return true
