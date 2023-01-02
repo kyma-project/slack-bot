@@ -1,4 +1,4 @@
-image: eu.gcr.io/kyma-project/incubator/slack-bot:latest
+image: eu.gcr.io/kyma-project/slack-bot:v20221222-b95bfb1b
 slack:
   # Slack App Token
   appToken: ""
