@@ -1,4 +1,4 @@
-IMG ?= eu.gcr.io/kyma-project/incubator/slack-bot
+IMG ?= eu.gcr.io/kyma-project/slack-bot
 
 .PHONY: build-image
 build-image:
