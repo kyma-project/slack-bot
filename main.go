@@ -61,6 +61,11 @@ func processMsgEvent(api *slack.Client, data interface{}) bool {
 		}
 		return true
 	}
+	if msg.Message != nil && msg.PreviousMessage != nil {
+		if strings.Contains(msg.Message.Text, gopherPing) && !strings.Contains(msg.PreviousMessage.Text, gopherPing) {
+			log.Println("Edited, added gopher ping")
+		}
+	}
 	if !strings.Contains(msg.Text, gopherPing) {
 		if debug {
 			log.Println("skipping, missing gopherPing", gopherPing)
