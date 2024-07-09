@@ -1,4 +1,4 @@
-name: pull-btp-manager-build-ga
+name: pull-slack-bot-build-ga
 
 on:
    pull_request_target:
