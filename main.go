@@ -63,7 +63,7 @@ func processMsgEvent(api *slack.Client, data interface{}) bool {
 	}
 	if msg.Message != nil && msg.PreviousMessage != nil {
 		if strings.Contains(msg.Message.Text, gopherPing) && !strings.Contains(msg.PreviousMessage.Text, gopherPing) {
-			return sendNotification(api, msg)
+			return sendNotification(api, msg.Message)
 		}
 	}
 	if strings.Contains(msg.Text, gopherPing) {
