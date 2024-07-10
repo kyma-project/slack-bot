@@ -63,11 +63,11 @@ func processMsgEvent(api *slack.Client, data interface{}) bool {
 	}
 	if msg.Message != nil && msg.PreviousMessage != nil {
 		if strings.Contains(msg.Message.Text, gopherPing) && !strings.Contains(msg.PreviousMessage.Text, gopherPing) {
-			return sendNotification(api, msg.Message)
+			return sendNotification(api, msg.Message, msg)
 		}
 	}
 	if strings.Contains(msg.Text, gopherPing) {
-		return sendNotification(api, msg)
+		return sendNotification(api, msg, msg)
 	}
 	if debug {
 		log.Println("skipping, missing gopherPing", gopherPing)
@@ -77,8 +77,8 @@ func processMsgEvent(api *slack.Client, data interface{}) bool {
 
 }
 
-func sendNotification(api *slack.Client, msg *slackevents.MessageEvent) bool {
-	backlogMsg := fmt.Sprintf("Message from <@%v>\n%v\n\n*link:* %v", msg.User, quote(msg.Text), getLink(msg))
+func sendNotification(api *slack.Client, msg *slackevents.MessageEvent, originalMessage *slackevents.MessageEvent) bool {
+	backlogMsg := fmt.Sprintf("Message from <@%v>\n%v\n\n*link:* %v", msg.User, quote(msg.Text), getLink(originalMessage))
 	if _, _, err := api.PostMessage(notificationChannelID, slack.MsgOptionText(backlogMsg, false)); err != nil {
 		log.Printf("failed posting reply: %v\n", err)
 		return false
