@@ -1,0 +1,5 @@
+# Default owners of the repository
+* @kyma-project/gopher
+
+# Owners of all .md files in the repository
+*.md @kyma-project/technical-writers
