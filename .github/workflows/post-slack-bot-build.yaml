@@ -1,4 +1,4 @@
-name: main-slack-bot-build
+name: post-slack-bot-build
 
 on:
   push:
