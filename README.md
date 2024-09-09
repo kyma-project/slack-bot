@@ -7,8 +7,8 @@ General information about Slack tokens can be found https://api.slack.com/authen
 The `gopher-bot` slack profile https://api.slack.com/apps/A035YCW3PAP.
 
 ## Release
-The `post-slack-bot-build` workflow creates `slack-bot` Docker image in the [registry](https://console.cloud.google.com/artifacts/docker/kyma-project/europe/prod/slack-bot),
-when there is a push to the main branch. The image is tagged with date and commit SHA. Once the Docker image is built and pushed to the registry, 
+The `post-slack-bot-build` workflow creates a `slack-bot` Docker image in the [registry](https://console.cloud.google.com/artifacts/docker/kyma-project/europe/prod/slack-bot)
+when there is a push to the main branch. The image is tagged with the date and commit SHA. Once the Docker image is built and pushed to the registry, 
 replace the current Docker image in deployment with the newly created image.
 
 ```bash
