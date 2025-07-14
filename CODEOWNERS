@@ -2,4 +2,4 @@
 * @kyma-project/gopher
 
 # Owners of all .md files in the repository
-*.md @kyma-project/technical-writers
+*.md @kyma-project/technical-writers @kyma-project/gopher
