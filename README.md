@@ -15,6 +15,8 @@ The `post-slack-bot-build` workflow creates a `slack-bot` Docker image in the [r
 when there is a push to the main branch. The image is tagged with the date and commit SHA. Once the Docker image is built and pushed to the registry,
 replace the current Docker image in deployment with the newly created image.
 
+
+
 ```bash
 kubectl set image deployment/gopher-slack-bot bot=europe-docker.pkg.dev/kyma-project/prod/slack-bot:<tag>
 ```
