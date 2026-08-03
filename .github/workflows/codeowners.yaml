@@ -7,9 +7,15 @@ jobs:
   codeowners-approval:
     runs-on: ubuntu-latest
     steps:
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.GOPHER_BOT_APP_ID }}
+          private-key: ${{ secrets.GOPHER_BOT_APP_PRIVATE_KEY }}
       - name: Check Codeowners Approval
-        uses: noamelf/codeowner-multi-approval-action@main
+        uses: noamelf/codeowner-multi-approval-action@ff4f388f021bdb1bb3653c2b09e3e84f3885f50c
         with:
           pr-number: ${{ github.event.pull_request.number }}
           repo-name: ${{ github.repository }}
-          github-token: ${{ secrets.MY_GITHUB_TOKEN }}
+          github-token: ${{ steps.app-token.outputs.token }}
