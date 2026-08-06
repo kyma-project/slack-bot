@@ -18,3 +18,4 @@ replace the current Docker image in deployment with the newly created image.
 ```bash
 kubectl set image deployment/gopher-slack-bot bot=europe-docker.pkg.dev/kyma-project/prod/slack-bot:<tag>
 ```
+
